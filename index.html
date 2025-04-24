@@ -6,12 +6,100 @@
     <title>student score</title>
 </head>
 <body>
-    <h1>list of students</h1>
-    <div id="main-container"></div>
+  <h1>Student Register</h1>
+  <h2>All Students</h2>
+  <div id="student-list"></div>
+  <h2>Students by Class</h2>
+  <div id="class-list"></div>
+  <h2>Students by Grade</h2>
+  <div id="grade-list"></div>
+  <footer>
+    <p>View the code on <a href="https://github.com/your-username/student-register">GitHub</a></p>
+  </footer>
+  <script src="students.js"></script>
+</body>
+</html>
+
     <script>
-         let main = document.createElement("div")
-         main.id = "container"
-           document.querySelector("#main-container").appendChild(main)
-    </script>
+        
+ // students.js
+let students = [
+  { name: "John Doe", class: "JSS1", score: 85 },
+  { name: "Jane Doe", class: "JSS1", score: 90 },
+  { name: "Mike Brown", class: "JSS2", score: 70 },
+  { name: "Emma Taylor", class: "JSS2", score: 60 },
+  { name: "David Lee", class: "JSS3", score: 80 },
+  { name: "Sophia Kim", class: "JSS3", score: 95 },
+  // Add more students here...
+];
+
+// Function to grade students
+function gradeStudent(score) {
+  if (score >= 70) return "A";
+  else if (score >= 60) return "B";
+  else if (score >= 50) return "C";
+  else if (score >= 40) return "D";
+  else return "F";
+}
+
+// Function to group students by class
+function groupByClass(students) {
+  let classes = {};
+  students.forEach((student) => {
+    if (!classes[student.class]) classes[student.class] = [];
+    classes[student.class].push(student);
+  });
+  return classes;
+}
+
+// Function to group students by grade
+function groupByGrade(students) {
+  let grades = {};
+  students.forEach((student) => {
+    let grade = gradeStudent(student.score);
+    if (!grades[grade]) grades[grade] = [];
+    grades[grade].push(student);
+  });
+  return grades;
+}
+
+// Render students
+function renderStudents(students) {
+  let studentList = document.getElementById("student-list");
+  let classList = document.getElementById("class-list");
+  let gradeList = document.getElementById("grade-list");
+
+  // Render all students
+  let studentHtml = "";
+  students.forEach((student) => {
+    studentHtml += `<p>${student.name} - ${student.class} - ${student.score}</p>`;
+  });
+  studentList.innerHTML = studentHtml;
+
+  // Render students by class
+  let classes = groupByClass(students);
+  let classHtml = "";
+  Object.keys(classes).forEach((className) => {
+    classHtml += `<h2>${className}</h2>`;
+    classes[className].forEach((student) => {
+      classHtml += `<p>${student.name} - ${student.score}</p>`;
+    });
+  });
+  classList.innerHTML = classHtml;
+
+  // Render students by grade
+  let grades = groupByGrade(students);
+  let gradeHtml = "";
+  Object.keys(grades).forEach((grade) => {
+    gradeHtml += `<h2>${grade}</h2>`;
+    grades[grade].forEach((student) => {
+      gradeHtml += `<p>${student.name} - ${student.class} - ${student.score}</p>`;
+    });
+  });
+  gradeList.innerHTML = gradeHtml;
+}
+
+renderStudents(students);
+</script>
 </body>
 </html>
