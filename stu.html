@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .student {
+                border: 2px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Students Register</h1>
+        
+        <div id="students"></div>
+        <div id="classes"></div>
+        <div id="grades"></div>
+        
+        <script>
+            /**
+             * NOTE: This is a sample for and not the most efficient implementation. Code can be optimized.
+             * 
+             **/
+            let students = [
+                {
+                    name: "KC",
+                    class: "JSS1",
+                    score: 95,
+                },
+                {
+                    name: "King",
+                    class: "JSS1",
+                    score: 60,
+                },
+                {
+                    name: "Person",
+                    class: "JSS2",
+                    score: 40,
+                },
+                {
+                    name: "Person 2",
+                    class: "JSS3",
+                    score: 15,
+                },
+            ]
+
+            let classes = []
+            let grades = ["A", "B", "C", "D", "F"]
+            
+            let studentsContainer = document.querySelector("#students");
+
+            students.forEach((student) => {
+                let studentContainer = document.createElement("div");
+                studentContainer.className = "student"
+                studentContainer.innerHTML = `<p>Name: ${student.name}</p><p>Class: ${student.class}</p><p>Score: ${student.score}</p>`
+
+                studentsContainer.appendChild(studentContainer)
+
+                if(classes.includes(student.class)){
+                    console.log("Class already exist")
+                }else{
+                    classes.push(student.class)
+                }
+            })
+
+            let classesContainer = document.querySelector("#classes");
+
+            classes.forEach((singleClass, index) => {
+                let classContainer = document.createElement("div");
+                classContainer.id = index
+                classContainer.innerHTML = `<h1>${singleClass}</h1>`
+
+                students.forEach((student) => {
+                    let studentContainer = document.createElement("div");
+                    studentContainer.className = "student"
+                    studentContainer.innerHTML = `<p>Name: ${student.name}</p><p>Class: ${student.class}</p><p>Score: ${student.score}</p>`
+
+                    if(student.class == singleClass){
+                        classContainer.appendChild(studentContainer)
+                    }
+                })
+
+                classesContainer.appendChild(classContainer)
+            })
+
+            let gradesContainer = document.querySelector("#grades")
+
+            grades.forEach((grade) => {
+                let gradeContainer = document.createElement("div");
+                gradeContainer.innerHTML = `<h1>Students with Grade ${grade}</h1>`
+
+                students.forEach((student) => {
+                    let studentContainer = document.createElement("div");
+                    studentContainer.className = "student"
+                    studentContainer.innerHTML = `<p>Name: ${student.name}</p><p>Class: ${student.class}</p><p>Score: ${student.score}</p>`
+
+                    if(studentGrade(student.score) == grade){
+                        gradeContainer.appendChild(studentContainer)
+                    }
+                })
+
+                gradesContainer.appendChild(gradeContainer)
+            })
+            
+            function studentGrade(score) {
+                if (score < 40) {
+                    return "F"
+                } else if(score < 50) {
+                    return "D"
+                } else if (score < 60) {
+                    return "C"
+                } else if (score < 70) {
+                    return "B"
+                } else if(score >= 70 && score <= 100){
+                    return "A"
+                } else {
+                    return "Invalid score"
+                }
+            }
+        </script>
+    </body>
+</html>
